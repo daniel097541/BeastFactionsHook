@@ -1,0 +1,6 @@
+rootProject.name = 'BeastFactionsHook'
+include 'hook'
+include 'core'
+include 'uuidhook'
+include 'savagehook'
+

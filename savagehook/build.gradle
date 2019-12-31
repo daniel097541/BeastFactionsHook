@@ -1,0 +1,21 @@
+plugins {
+    id 'java'
+}
+
+version 'unspecified'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+    maven{
+        name = 'savage'
+        url = 'https://nexus.illyria.io/repository/maven-public/'
+    }
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+    compileOnly project(':hook')
+    compileOnly "com.massivecraft:SavageFactions:1.6.9.5-U0.2.1-RC-1.6.2-RC-2.5-RC-6"
+}
