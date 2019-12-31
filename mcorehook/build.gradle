@@ -1,0 +1,16 @@
+plugins {
+    id 'java'
+}
+
+version 'unspecified'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compileOnly project(':hook')
+    compileOnly fileTree(dir: 'dependencies', include: '*.jar')
+}

@@ -3,4 +3,5 @@ include 'hook'
 include 'core'
 include 'uuidhook'
 include 'savagehook'
+include 'mcorehook'
 
