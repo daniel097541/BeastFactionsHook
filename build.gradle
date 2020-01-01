@@ -20,9 +20,11 @@ allprojects {
 
     apply plugin: 'java'
     apply plugin: 'io.freefair.lombok'
+    apply plugin: 'maven'
 
     repositories {
         mavenCentral()
+        mavenLocal()
         maven {
             name = 'papermc-repo'
             url = 'https://papermc.io/repo/repository/maven-public/'

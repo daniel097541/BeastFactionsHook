@@ -11,7 +11,7 @@ import java.util.UUID;
 public class PlayerManager extends CachedManagerImpl<UUID, BeastPlayer> {
 
     @Getter
-    private static PlayerManager instance;
+    private static PlayerManager instance = new PlayerManager();
 
 
 
