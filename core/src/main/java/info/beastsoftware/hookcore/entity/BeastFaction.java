@@ -14,11 +14,15 @@ import java.util.Set;
 public class BeastFaction implements BeastEntity {
     private final String id;
 
-    public String getName(){
+    public String getName() {
         return this.manager().getFactionName(this);
     }
 
-    public Set<BeastPlayer> getMembers(){
+    public Set<BeastPlayer> getMembers() {
         return this.manager().getMembersOfFaction(this);
+    }
+
+    public BeastRelation getRelationWith(BeastFaction otherFaction) {
+        return this.manager().getRelationOfFactionWith(this, otherFaction);
     }
 }

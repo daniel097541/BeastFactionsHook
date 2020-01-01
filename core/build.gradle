@@ -15,6 +15,7 @@ dependencies {
     compile project(':hook')
     compile project(':uuidhook')
     compile project(':savagehook')
+    compile project(':mcorehook')
 }
 
 

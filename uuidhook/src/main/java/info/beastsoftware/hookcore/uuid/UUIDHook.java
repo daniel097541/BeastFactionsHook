@@ -1,41 +1,55 @@
 package info.beastsoftware.hookcore.uuid;
 
+import com.massivecraft.factions.*;
 import info.beastsoftware.hookcore.FactionsHook;
+import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
-import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
+import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
-public class UUIDHook implements FactionsHook {
+public interface UUIDHook extends FactionsHook {
+
+    default Faction getFromId(String id){
+        return Factions.getInstance().getFactionById(id);
+    }
+
+
     @Override
-    public String getFactionNameFromId(String id) {
-        return null;
+    default String getRelationOfFactionWithFaction(String factionId, String targetFactionId){
+        return this.getFromId(factionId).getRelationWish(this.getFromId(targetFactionId)).name();
     }
 
     @Override
-    public String getIdOfFactionAtLocation(Location bukkitLocation) {
-        return null;
+    default String getFactionNameFromId(String id) {
+        return this.getFromId(id).getTag();
     }
 
     @Override
-    public String getFactionAtChunk(Chunk bukkitChunk) {
-        return null;
+    default String getFactionAtChunk(Chunk bukkitChunk) {
+        return Board.getInstance().getIdAt(new FLocation(bukkitChunk.getBlock(0,0,0).getLocation()));
     }
 
     @Override
-    public String getFactionOfPlayer(OfflinePlayer offlinePlayer) {
-        return null;
+    default String getFactionOfPlayer(OfflinePlayer offlinePlayer) {
+        return FPlayers.getInstance().getByOfflinePlayer(offlinePlayer).getFactionId();
     }
 
     @Override
-    public Set<OfflinePlayer> getMembersOfFaction(String id) {
-        return null;
+    default Set<OfflinePlayer> getMembersOfFaction(String id) {
+        return this.getFromId(id)
+                .getFPlayers()
+                .stream()
+                .map(p -> Bukkit.getOfflinePlayer(p.getName()))
+                .collect(Collectors.toSet());
     }
 
     @Override
-    public Set<Player> getOnlinePlayers() {
-        return null;
+    default Set<Player> getOnlinePlayers(String factionId) {
+        return new HashSet<>(this.getFromId(factionId)
+                .getOnlinePlayers());
     }
 }

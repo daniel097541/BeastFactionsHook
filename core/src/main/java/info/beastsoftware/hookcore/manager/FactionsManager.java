@@ -3,10 +3,7 @@ package info.beastsoftware.hookcore.manager;
 import info.beastsoftware.hookcore.FactionsHook;
 import info.beastsoftware.hookcore.cache.Actioner;
 import info.beastsoftware.hookcore.cache.CachedManagerImpl;
-import info.beastsoftware.hookcore.entity.BeastChunk;
-import info.beastsoftware.hookcore.entity.BeastFaction;
-import info.beastsoftware.hookcore.entity.BeastLocation;
-import info.beastsoftware.hookcore.entity.BeastPlayer;
+import info.beastsoftware.hookcore.entity.*;
 import lombok.Getter;
 
 import java.util.Set;
@@ -61,5 +58,9 @@ public class FactionsManager extends CachedManagerImpl<String, BeastFaction> {
                 .stream()
                 .map(p -> playerManager.get(p.getUniqueId()))
                 .collect(Collectors.toSet());
+    }
+
+    public BeastRelation getRelationOfFactionWith(BeastFaction faction, BeastFaction otherFaction) {
+        return new BeastRelation(this.hook.getRelationOfFactionWithFaction(faction.getId(), otherFaction.getId()));
     }
 }

@@ -8,12 +8,15 @@ import info.beastsoftware.hookcore.FactionsHook;
 import info.beastsoftware.hookcore.manager.FactionsManager;
 import info.beastsoftware.hookcore.uuid.UUIDHook;
 import info.beastsoftware.hookcore.struct.HookedFactions;
+import info.beastsoftware.mcorehook.MCoreFactionsHook;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
 import java.util.Objects;
+import java.util.Set;
 
 @Getter
 public class FactionsService {
@@ -27,10 +30,13 @@ public class FactionsService {
 
         switch (getHookedFactions()){
             case UUID:
-                hook = new UUIDHook();
+                hook = new UUIDHook(){};
                 break;
             case SAVAGE:
-                hook = new SavageHook();
+                hook = new SavageHook(){};
+                break;
+            case MCORE:
+                hook = new MCoreFactionsHook() {};
                 break;
             default:
                 break;

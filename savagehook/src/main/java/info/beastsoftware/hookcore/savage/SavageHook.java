@@ -1,46 +1,42 @@
 package info.beastsoftware.hookcore.savage;
 
 import com.massivecraft.factions.*;
+import com.massivecraft.factions.struct.Relation;
+import info.beastsoftware.hookcore.FactionsHook;
 import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
-import org.bukkit.Location;
-import info.beastsoftware.hookcore.FactionsHook;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
+import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public class SavageHook implements FactionsHook {
+public interface SavageHook extends FactionsHook {
 
 
-    private Faction getFactionFromId(String id){
+    default Faction getFactionFromId(String id) {
         return Factions.getInstance().getFactionById(id);
     }
 
 
     @Override
-    public String getFactionNameFromId(String id) {
+    default String getFactionNameFromId(String id) {
         return getFactionFromId(id).getTag();
     }
 
     @Override
-    public String getIdOfFactionAtLocation(Location bukkitLocation) {
-        return Board.getInstance().getIdAt(new FLocation(bukkitLocation));
+    default String getFactionAtChunk(Chunk bukkitChunk) {
+        return Board.getInstance().getIdAt(new FLocation(bukkitChunk.getBlock(0, 0, 0).getLocation()));
     }
 
     @Override
-    public String getFactionAtChunk(Chunk bukkitChunk) {
-        return Board.getInstance().getIdAt(new FLocation(bukkitChunk.getBlock(0,0,0).getLocation()));
-    }
-
-    @Override
-    public String getFactionOfPlayer(OfflinePlayer offlinePlayer) {
+    default String getFactionOfPlayer(OfflinePlayer offlinePlayer) {
         return FPlayers.getInstance().getByOfflinePlayer(offlinePlayer).getFactionId();
     }
 
     @Override
-    public Set<OfflinePlayer> getMembersOfFaction(String id) {
+    default Set<OfflinePlayer> getMembersOfFaction(String id) {
         return getFactionFromId(id).getFPlayers()
                 .stream()
                 .map(fPlayer -> Bukkit.getOfflinePlayer(fPlayer.getName()))
@@ -48,7 +44,13 @@ public class SavageHook implements FactionsHook {
     }
 
     @Override
-    public Set<Player> getOnlinePlayers() {
-        return null;
+    default Set<Player> getOnlinePlayers(String factionId) {
+        return new HashSet<>(this.getFactionFromId(factionId).getOnlinePlayers());
+    }
+
+    @Override
+    default String getRelationOfFactionWithFaction(String factionId, String targetFactionId) {
+        Relation relation = this.getFactionFromId(factionId).getRelationTo(this.getFactionFromId(targetFactionId));
+        return relation.name();
     }
 }
