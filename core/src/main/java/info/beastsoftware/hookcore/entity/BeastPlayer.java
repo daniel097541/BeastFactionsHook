@@ -16,7 +16,7 @@ import java.util.UUID;
 @ToString
 @Getter
 @EqualsAndHashCode
-public class BeastPlayer implements BeastEntity{
+public class BeastPlayer implements BeastEntity {
 
     private final UUID uuid;
 
@@ -28,46 +28,70 @@ public class BeastPlayer implements BeastEntity{
         this.uuid = offlinePlayer.getUniqueId();
     }
 
-    public OfflinePlayer getOfflinePlayer(){
+    public OfflinePlayer getOfflinePlayer() {
         return Bukkit.getOfflinePlayer(this.uuid);
     }
 
-    public String getName(){
+    public String getName() {
         return this.getOfflinePlayer().getName();
     }
 
-    public Player getBukkitPlayer(){
+    public Player getBukkitPlayer() {
         return Bukkit.getPlayer(this.uuid);
     }
 
-    public boolean isOnline(){
+    public boolean isOnline() {
         return Objects.nonNull(this.getBukkitPlayer());
     }
 
-    public boolean isOffline(){
+    public boolean isOffline() {
         return !this.isOnline();
     }
 
-    public Location getBukkitLocation(){
-        if(this.isOnline()){
+    public Location getBukkitLocation() {
+        if (this.isOnline()) {
             return this.getBukkitPlayer().getLocation();
         }
         return null;
     }
 
-    public BeastLocation getLocation(){
+    public BeastLocation getLocation() {
         Location location = this.getBukkitLocation();
-        if(Objects.nonNull(location)) {
+        if (Objects.nonNull(location)) {
             return new BeastLocation(location);
         }
         return null;
     }
 
-    public BeastFaction getFactionAtMyLocation(){
+    public BeastFaction getFactionAtMyLocation() {
         return this.getLocation().getFactionAt();
     }
 
-    public BeastFaction getMyFaction(){
+    public BeastFaction getMyFaction() {
         return this.manager().getFactionOfPlayer(this);
+    }
+
+    public boolean isHisFaction(BeastFaction faction) {
+        return this.getMyFaction().equals(faction);
+    }
+
+    public boolean isAtHisFactionsLand() {
+        return this.getFactionAtMyLocation().equals(this.getMyFaction());
+    }
+
+    public boolean isEnemy(BeastPlayer player) {
+        return this.getMyFaction().isEnemy(player.getMyFaction());
+    }
+
+    public boolean isAlly(BeastPlayer player) {
+        return this.getMyFaction().isAlly(player.getMyFaction());
+    }
+
+    public boolean isNeutral(BeastPlayer player) {
+        return this.getMyFaction().isNeutral(player.getMyFaction());
+    }
+
+    public BeastRole getRole(){
+        return this.getMyFaction().getRoleOfPlayer(this);
     }
 }

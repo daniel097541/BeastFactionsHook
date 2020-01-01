@@ -56,4 +56,14 @@ public interface MCoreFactionsHook extends FactionsHook {
                 .map(p -> Bukkit.getOfflinePlayer(p.getUuid()))
                 .collect(Collectors.toSet());
     }
+
+    @Override
+    default String getFactionIdFromName(String factionName){
+        return FactionColl.get().getByName(factionName).getId();
+    }
+
+    @Override
+    default String getRoleOfPlayer(OfflinePlayer offlinePlayer){
+        return MPlayerColl.get().get(offlinePlayer).getRole().getName();
+    }
 }

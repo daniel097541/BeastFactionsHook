@@ -52,4 +52,9 @@ public interface UUIDHook extends FactionsHook {
         return new HashSet<>(this.getFromId(factionId)
                 .getOnlinePlayers());
     }
+
+    @Override
+    default String getFactionIdFromName(String factionName){
+        return Factions.getInstance().getByTag(factionName).getId();
+    }
 }

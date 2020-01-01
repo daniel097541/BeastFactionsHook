@@ -63,4 +63,12 @@ public class FactionsManager extends CachedManagerImpl<String, BeastFaction> {
     public BeastRelation getRelationOfFactionWith(BeastFaction faction, BeastFaction otherFaction) {
         return new BeastRelation(this.hook.getRelationOfFactionWithFaction(faction.getId(), otherFaction.getId()));
     }
+
+    public BeastFaction getFromName(String factionName) {
+        return this.get(this.getHook().getFactionIdFromName(factionName));
+    }
+
+    public BeastRole getRoleOfPlayer(BeastPlayer player) {
+        return new BeastRole(this.getHook().getRoleOfPlayer(player.getOfflinePlayer()));
+    }
 }

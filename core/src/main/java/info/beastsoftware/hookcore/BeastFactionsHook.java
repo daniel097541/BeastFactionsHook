@@ -1,5 +1,6 @@
 package info.beastsoftware.hookcore;
 
+import info.beastsoftware.hookcore.api.BeastFactionsHookAPI;
 import info.beastsoftware.hookcore.entity.BeastPlayer;
 import info.beastsoftware.hookcore.service.FactionsService;
 import info.beastsoftware.hookcore.service.PlayerService;
@@ -14,9 +15,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class BeastFactionsHook extends JavaPlugin implements Listener {
 
 
-    private FactionsService factionsService;
-    private PlayerService playerService;
-
 
     @Override
     public void onDisable() {
@@ -24,8 +22,6 @@ public class BeastFactionsHook extends JavaPlugin implements Listener {
 
     @Override
     public void onEnable() {
-        factionsService = new FactionsService();
-        this.playerService = new PlayerService();
         this.getServer().getPluginManager().registerEvents(this, this);
     }
 
@@ -41,7 +37,7 @@ public class BeastFactionsHook extends JavaPlugin implements Listener {
 
         if(player.getItemInHand().getType().equals(Material.BLAZE_ROD)){
 
-            BeastPlayer beastPlayer = playerService.getFromUUID(player.getUniqueId());
+            BeastPlayer beastPlayer = BeastFactionsHookAPI.getPlayerByUUID(player.getUniqueId());
             Bukkit.broadcastMessage(beastPlayer.getMyFaction().toString());
             Bukkit.broadcastMessage(beastPlayer.getFactionAtMyLocation().toString());
             Bukkit.broadcastMessage(beastPlayer.getMyFaction().getRelationWith(beastPlayer.getFactionAtMyLocation()).toString());

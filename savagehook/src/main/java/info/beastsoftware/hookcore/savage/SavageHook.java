@@ -53,4 +53,9 @@ public interface SavageHook extends FactionsHook {
         Relation relation = this.getFactionFromId(factionId).getRelationTo(this.getFactionFromId(targetFactionId));
         return relation.name();
     }
+
+    @Override
+    default String getFactionIdFromName(String factionName){
+        return Factions.getInstance().getByTag(factionName).getId();
+    }
 }

@@ -23,6 +23,8 @@ public class FactionsService {
 
     private final FactionsManager manager;
 
+    @Getter
+    private static final FactionsService instance = new FactionsService();
 
     public FactionsService() {
 
@@ -83,5 +85,9 @@ public class FactionsService {
 
     public BeastFaction getAtLocation(Location location){
         return this.manager.getFactionAtLocation(new BeastLocation(location));
+    }
+
+    public BeastFaction getFromName(String factionName) {
+        return this.manager.getFromName(factionName);
     }
 }

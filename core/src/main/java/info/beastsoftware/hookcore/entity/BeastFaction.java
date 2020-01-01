@@ -25,4 +25,20 @@ public class BeastFaction implements BeastEntity {
     public BeastRelation getRelationWith(BeastFaction otherFaction) {
         return this.manager().getRelationOfFactionWith(this, otherFaction);
     }
+
+    public boolean isEnemy(BeastFaction other) {
+        return this.getRelationWith(other).getName().toLowerCase().contains("enemy");
+    }
+
+    public boolean isAlly(BeastFaction other) {
+        return this.getRelationWith(other).getName().toLowerCase().contains("ally");
+    }
+
+    public boolean isNeutral(BeastFaction other) {
+        return this.getRelationWith(other).getName().contains("neutral");
+    }
+
+    public BeastRole getRoleOfPlayer(BeastPlayer player) {
+        return this.manager().getRoleOfPlayer(player);
+    }
 }

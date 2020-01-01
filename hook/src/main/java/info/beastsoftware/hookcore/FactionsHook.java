@@ -85,4 +85,7 @@ public interface FactionsHook {
         return this.getNearbyPlayersInRadiusMatching(player, radius, (p) -> !areInTheSameFaction(player, p));
     }
 
+    String getFactionIdFromName(String factionName);
+
+    String getRoleOfPlayer(OfflinePlayer offlinePlayer);
 }
