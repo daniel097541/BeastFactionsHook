@@ -41,4 +41,5 @@ public class BeastFaction implements BeastEntity {
     public BeastRole getRoleOfPlayer(BeastPlayer player) {
         return this.manager().getRoleOfPlayer(player);
     }
+
 }

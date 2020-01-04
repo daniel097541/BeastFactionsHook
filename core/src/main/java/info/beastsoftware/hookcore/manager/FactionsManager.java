@@ -35,7 +35,6 @@ public class FactionsManager extends CachedManagerImpl<String, BeastFaction> {
         instance = this;
     }
 
-    
 
     public BeastFaction getFactionAtLocation(BeastLocation location) {
         return this.get(hook.getIdOfFactionAtLocation(location.getBukkitLocation()));
@@ -70,5 +69,25 @@ public class FactionsManager extends CachedManagerImpl<String, BeastFaction> {
 
     public BeastRole getRoleOfPlayer(BeastPlayer player) {
         return new BeastRole(this.getHook().getRoleOfPlayer(player.getOfflinePlayer()));
+    }
+
+    public boolean isAdmin(BeastPlayer player) {
+        return this.getHook().isAdmin(player.getOfflinePlayer());
+    }
+
+    public boolean isMod(BeastPlayer player) {
+        return this.getHook().isMod(player.getOfflinePlayer());
+    }
+
+    public boolean isColeader(BeastPlayer player) {
+        return this.getHook().isColeader(player.getOfflinePlayer());
+    }
+
+    public boolean isRecruit(BeastPlayer player) {
+        return this.getHook().isRecruit(player.getOfflinePlayer());
+    }
+
+    public boolean hasFaction(BeastPlayer player) {
+        return this.getHook().hasFaction(player.getOfflinePlayer());
     }
 }

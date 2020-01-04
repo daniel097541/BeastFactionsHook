@@ -1,6 +1,7 @@
 package info.beastsoftware.hookcore.uuid;
 
 import com.massivecraft.factions.*;
+import com.massivecraft.factions.perms.Role;
 import info.beastsoftware.hookcore.FactionsHook;
 import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
@@ -56,5 +57,35 @@ public interface UUIDHook extends FactionsHook {
     @Override
     default String getFactionIdFromName(String factionName){
         return Factions.getInstance().getByTag(factionName).getId();
+    }
+
+    @Override
+    default String getRoleOfPlayer(OfflinePlayer offlinePlayer){
+        return FPlayers.getInstance().getByOfflinePlayer(offlinePlayer).getRole().name();
+    }
+
+    @Override
+    default boolean isAdmin(OfflinePlayer player){
+        return FPlayers.getInstance().getByOfflinePlayer(player).getRole().equals(Role.ADMIN);
+    }
+
+    @Override
+    default boolean isColeader(OfflinePlayer player){
+        return this.getRoleOfPlayer(player).equalsIgnoreCase(Role.COLEADER.name());
+    }
+
+    @Override
+    default boolean isMod(OfflinePlayer player){
+        return this.getRoleOfPlayer(player).equalsIgnoreCase(Role.MODERATOR.name());
+    }
+
+    @Override
+    default boolean isRecruit(OfflinePlayer player){
+        return this.getRoleOfPlayer(player).equalsIgnoreCase(Role.RECRUIT.name());
+    }
+
+    @Override
+    default boolean hasFaction(OfflinePlayer offlinePlayer){
+        return FPlayers.getInstance().getByOfflinePlayer(offlinePlayer).hasFaction();
     }
 }

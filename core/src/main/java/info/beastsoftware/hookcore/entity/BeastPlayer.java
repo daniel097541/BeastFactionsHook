@@ -94,4 +94,32 @@ public class BeastPlayer implements BeastEntity {
     public BeastRole getRole(){
         return this.getMyFaction().getRoleOfPlayer(this);
     }
+
+
+    public boolean isAdmin(){
+        return this.manager().isAdmin(this);
+    }
+
+
+    public boolean isColeader(){
+        return this.manager().isColeader(this);
+    }
+
+
+    public boolean isMod(){
+        return this.manager().isMod(this);
+    }
+
+
+    public boolean isRecruit(){
+        return this.manager().isRecruit(this);
+    }
+
+    public boolean isMember(){
+        return !isRecruit() && !isMod() && !isAdmin() && !isColeader() && hasFaction();
+    }
+
+    private boolean hasFaction() {
+        return this.manager().hasFaction(this);
+    }
 }

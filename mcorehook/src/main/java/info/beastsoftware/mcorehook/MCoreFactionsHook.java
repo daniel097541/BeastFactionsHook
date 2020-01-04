@@ -1,5 +1,6 @@
 package info.beastsoftware.mcorehook;
 
+import com.massivecraft.factions.Rel;
 import com.massivecraft.factions.entity.BoardColl;
 import com.massivecraft.factions.entity.Faction;
 import com.massivecraft.factions.entity.FactionColl;
@@ -65,5 +66,32 @@ public interface MCoreFactionsHook extends FactionsHook {
     @Override
     default String getRoleOfPlayer(OfflinePlayer offlinePlayer){
         return MPlayerColl.get().get(offlinePlayer).getRole().getName();
+    }
+
+    @Override
+    default boolean isAdmin(OfflinePlayer player){
+        return this.getRoleOfPlayer(player).equalsIgnoreCase(Rel.LEADER.name());
+    }
+
+
+    @Override
+    default boolean isMod(OfflinePlayer player){
+        return this.getRoleOfPlayer(player).equalsIgnoreCase(Rel.OFFICER.name());
+
+    }
+
+    @Override
+    default boolean isRecruit(OfflinePlayer player){
+        return this.getRoleOfPlayer(player).equalsIgnoreCase(Rel.RECRUIT.name());
+    }
+
+    @Override
+    default boolean hasFaction(OfflinePlayer offlinePlayer){
+        return MPlayerColl.get().get(offlinePlayer).hasFaction();
+    }
+
+    @Override
+    default boolean isColeader(OfflinePlayer player){
+        throw new UnsupportedOperationException();
     }
 }

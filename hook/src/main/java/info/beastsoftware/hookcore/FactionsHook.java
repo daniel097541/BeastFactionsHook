@@ -88,4 +88,14 @@ public interface FactionsHook {
     String getFactionIdFromName(String factionName);
 
     String getRoleOfPlayer(OfflinePlayer offlinePlayer);
+
+    boolean isAdmin(OfflinePlayer player);
+
+    boolean isColeader(OfflinePlayer player);
+
+    boolean isMod(OfflinePlayer player);
+
+    boolean isRecruit(OfflinePlayer player);
+
+    boolean hasFaction(OfflinePlayer offlinePlayer);
 }
