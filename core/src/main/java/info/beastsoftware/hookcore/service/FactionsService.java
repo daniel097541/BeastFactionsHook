@@ -29,24 +29,30 @@ public class FactionsService {
 
         FactionsHook hook = null;
 
-        switch (getHookedFactions()) {
-            case UUID:
-                hook = new UUIDHook() {
-                };
-                break;
-            case SAVAGE:
-                hook = new SavageHook() {
-                };
-                break;
-            case MCORE:
-                hook = new MCoreFactionsHook() {
-                };
-                break;
-            default:
-                break;
+        HookedFactions hookedFactions = this.getHookedFactions();
+
+        if(Objects.nonNull(hookedFactions)) {
+
+            switch (getHookedFactions()) {
+                case UUID:
+                    hook = new UUIDHook() {
+                    };
+                    break;
+                case SAVAGE:
+                    hook = new SavageHook() {
+                    };
+                    break;
+                case MCORE:
+                    hook = new MCoreFactionsHook() {
+                    };
+                    break;
+                default:
+                    break;
+            }
         }
 
         this.manager = new FactionsManager(hook);
+
     }
 
 
