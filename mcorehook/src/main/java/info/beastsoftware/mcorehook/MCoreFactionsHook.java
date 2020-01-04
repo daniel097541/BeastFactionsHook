@@ -1,5 +1,6 @@
 package info.beastsoftware.mcorehook;
 
+import com.massivecraft.factions.Factions;
 import com.massivecraft.factions.Rel;
 import com.massivecraft.factions.entity.BoardColl;
 import com.massivecraft.factions.entity.Faction;
@@ -93,5 +94,13 @@ public interface MCoreFactionsHook extends FactionsHook {
     @Override
     default boolean isColeader(OfflinePlayer player){
         throw new UnsupportedOperationException();
+    }
+
+    @Override
+    default Set<String> getAllFactions(){
+        return FactionColl.get().getAll()
+                .stream()
+                .map(Faction::getId)
+                .collect(Collectors.toSet());
     }
 }

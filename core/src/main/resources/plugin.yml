@@ -1,9 +1,0 @@
-name: BeastFactionsHook
-version: ${project.version}
-main: info.beastsoftware.hookcore.BeastFactionsHook
-authors: [BrutalFisting]
-softdepend:
-  - Factions
-  - MassiveCore
-description: Beast hook for Beast servers!
-api-version: 1.13

@@ -5,6 +5,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
 import org.bukkit.Bukkit;
+import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.World;
 
@@ -36,5 +37,9 @@ public class BeastLocation implements BeastEntity{
 
     public BeastFaction getFactionAt(){
         return this.manager().getFactionAtLocation(this);
+    }
+
+    public BeastChunk getChunk() {
+        return new BeastChunk(this.getBukkitLocation().getChunk());
     }
 }

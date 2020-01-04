@@ -1,12 +1,14 @@
 plugins {
-    id 'java'
+    id 'maven-publish'
 }
 
-version 'unspecified'
+group 'info.beastsoftware'
+version '1.0'
 
 sourceCompatibility = 1.8
 
 repositories {
+    mavenLocal()
     mavenCentral()
 }
 
@@ -22,5 +24,13 @@ dependencies {
 jar {
     from {
         configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+        }
     }
 }

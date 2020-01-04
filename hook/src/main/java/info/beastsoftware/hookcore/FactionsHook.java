@@ -98,4 +98,6 @@ public interface FactionsHook {
     boolean isRecruit(OfflinePlayer player);
 
     boolean hasFaction(OfflinePlayer offlinePlayer);
+
+    Set<String> getAllFactions();
 }

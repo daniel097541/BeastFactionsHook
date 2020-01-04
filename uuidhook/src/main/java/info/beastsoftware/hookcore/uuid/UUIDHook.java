@@ -88,4 +88,12 @@ public interface UUIDHook extends FactionsHook {
     default boolean hasFaction(OfflinePlayer offlinePlayer){
         return FPlayers.getInstance().getByOfflinePlayer(offlinePlayer).hasFaction();
     }
+
+    @Override
+    default Set<String> getAllFactions(){
+        return Factions.getInstance().getAllFactions()
+                .stream()
+                .map(Faction::getId)
+                .collect(Collectors.toSet());
+    }
 }

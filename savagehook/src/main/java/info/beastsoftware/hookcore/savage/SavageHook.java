@@ -36,6 +36,7 @@ public interface SavageHook extends FactionsHook {
         return FPlayers.getInstance().getByOfflinePlayer(offlinePlayer).getFactionId();
     }
 
+
     @Override
     default Set<OfflinePlayer> getMembersOfFaction(String id) {
         return getFactionFromId(id).getFPlayers()
@@ -89,4 +90,14 @@ public interface SavageHook extends FactionsHook {
     default boolean hasFaction(OfflinePlayer offlinePlayer){
         return FPlayers.getInstance().getByOfflinePlayer(offlinePlayer).hasFaction();
     }
+
+    @Override
+    default Set<String> getAllFactions(){
+        return Factions.getInstance().getAllFactions()
+                .stream()
+                .map(Faction::getId)
+                .collect(Collectors.toSet());
+    }
+
+
 }

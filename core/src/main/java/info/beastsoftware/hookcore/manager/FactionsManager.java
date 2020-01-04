@@ -90,4 +90,18 @@ public class FactionsManager extends CachedManagerImpl<String, BeastFaction> {
     public boolean hasFaction(BeastPlayer player) {
         return this.getHook().hasFaction(player.getOfflinePlayer());
     }
+
+    public Set<BeastPlayer> getOnlinePlayersOfFaction(BeastFaction faction) {
+        return this.getHook().getOnlinePlayers(faction.getId())
+                .stream()
+                .map(p -> this.playerManager.get(p.getUniqueId()))
+                .collect(Collectors.toSet());
+    }
+
+    public Set<BeastFaction> getAllFactions() {
+        return this.hook.getAllFactions()
+                .stream()
+                .map(this::get)
+                .collect(Collectors.toSet());
+    }
 }
