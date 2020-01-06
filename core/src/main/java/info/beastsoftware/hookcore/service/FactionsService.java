@@ -1,15 +1,10 @@
 package info.beastsoftware.hookcore.service;
 
-import info.beastsoftware.hookcore.FactionsHook;
 import info.beastsoftware.hookcore.entity.BeastFaction;
-import info.beastsoftware.hookcore.entity.BeastLocation;
+import info.beastsoftware.hookcore.entity.BeastLocationImpl;
 import info.beastsoftware.hookcore.logging.BeastLogger;
 import info.beastsoftware.hookcore.manager.FactionsManager;
-import info.beastsoftware.hookcore.savage.SavageHook;
 import info.beastsoftware.hookcore.struct.HookedFactions;
-import info.beastsoftware.hookcore.uuid.UUIDHook;
-import info.beastsoftware.mcorehook.MCoreFactionsHook;
-import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.plugin.Plugin;
@@ -17,46 +12,14 @@ import org.bukkit.plugin.Plugin;
 import java.util.Objects;
 import java.util.Set;
 
-@Getter
-public class FactionsService {
 
-    private final FactionsManager manager;
-
-    @Getter
-    private static final FactionsService instance = new FactionsService();
-
-    public FactionsService() {
-
-        FactionsHook hook = null;
-
-        HookedFactions hookedFactions = this.getHookedFactions();
-
-        if(Objects.nonNull(hookedFactions)) {
-
-            switch (getHookedFactions()) {
-                case UUID:
-                    hook = new UUIDHook() {
-                    };
-                    break;
-                case SAVAGE:
-                    hook = new SavageHook() {
-                    };
-                    break;
-                case MCORE:
-                    hook = new MCoreFactionsHook() {
-                    };
-                    break;
-                default:
-                    break;
-            }
-        }
-
-        this.manager = new FactionsManager(hook);
-
-    }
+public interface FactionsService {
 
 
-    public HookedFactions getHookedFactions() {
+    FactionsManager getManager();
+
+
+    default HookedFactions getHookedFactions() {
 
         Plugin uuidBasedFactions = Bukkit.getPluginManager().getPlugin("Factions");
         Plugin mcoreBasedFactions = Bukkit.getPluginManager().getPlugin("MassiveCore");
@@ -87,24 +50,24 @@ public class FactionsService {
         return hookedFactions;
     }
 
-    public boolean isHooked(){
-        return Objects.nonNull(manager);
+    default boolean isHooked() {
+        return Objects.nonNull(this.getManager());
     }
 
-    public BeastFaction getFromId(String id) {
-        return this.manager.get(id);
+    default BeastFaction getFromId(String id) {
+        return this.getManager().getFromId(id);
     }
 
-    public BeastFaction getAtLocation(Location location) {
-        return this.manager.getFactionAtLocation(new BeastLocation(location));
+    default BeastFaction getAtLocation(Location location) {
+        return this.getManager().getFactionAtLocation(new BeastLocationImpl(location));
     }
 
-    public BeastFaction getFromName(String factionName) {
-        return this.manager.getFromName(factionName);
+    default BeastFaction getFromName(String factionName) {
+        return this.getManager().getFromName(factionName);
     }
 
-    public Set<BeastFaction> getAll(){
-        return this.manager.getAllFactions();
+    default Set<BeastFaction> getAll() {
+        return this.getManager().getAllFactions();
     }
 
 }

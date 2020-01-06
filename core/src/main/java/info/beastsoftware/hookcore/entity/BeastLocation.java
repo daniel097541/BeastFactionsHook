@@ -1,45 +1,35 @@
 package info.beastsoftware.hookcore.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.ToString;
 import org.bukkit.Bukkit;
-import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.World;
 
-@AllArgsConstructor
-@Getter
-@ToString
-@EqualsAndHashCode
-public class BeastLocation implements BeastEntity{
 
-    private final String worldName;
-    private final double x;
-    private final double y;
-    private final double z;
+public interface BeastLocation extends BeastEntity {
 
-    public BeastLocation(Location location) {
-        this.worldName = location.getWorld().getName();
-        this.x = location.getX();
-        this.y = location.getY();
-        this.z = location.getZ();
+
+    String getWorldName();
+
+    double getX();
+
+    double getY();
+
+    double getZ();
+
+
+    default World getWorld() {
+        return Bukkit.getWorld(this.getWorldName());
     }
 
-    public World getWorld(){
-        return Bukkit.getWorld(this.worldName);
+    default Location getBukkitLocation() {
+        return new Location(this.getWorld(), this.getX(), this.getY(), this.getZ());
     }
 
-    public Location getBukkitLocation(){
-        return new Location(this.getWorld(), this.x, this.y, this.z);
-    }
-
-    public BeastFaction getFactionAt(){
+    default BeastFaction getFactionAt() {
         return this.manager().getFactionAtLocation(this);
     }
 
-    public BeastChunk getChunk() {
-        return new BeastChunk(this.getBukkitLocation().getChunk());
+    default BeastChunk getChunk() {
+        return new BeastChunkImpl(this.getBukkitLocation().getChunk());
     }
 }

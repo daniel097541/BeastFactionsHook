@@ -1,13 +1,10 @@
 package info.beastsoftware.hookcore.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.ToString;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.entity.AnimalTamer;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -18,192 +15,186 @@ import org.bukkit.potion.PotionEffectType;
 import java.util.Objects;
 import java.util.UUID;
 
-@AllArgsConstructor
-@ToString
-@Getter
-@EqualsAndHashCode
-public class BeastPlayer implements BeastEntity {
 
-    private final UUID uuid;
+public interface BeastPlayer extends BeastEntity, AnimalTamer {
 
-    public BeastPlayer(Player player) {
-        this.uuid = player.getUniqueId();
+    UUID getUuid();
+
+    @Override
+    default UUID getUniqueId(){
+        return this.getUuid();
     }
 
-    public BeastPlayer(OfflinePlayer offlinePlayer) {
-        this.uuid = offlinePlayer.getUniqueId();
+
+    default OfflinePlayer getOfflinePlayer() {
+        return Bukkit.getOfflinePlayer(this.getUuid());
     }
 
-    public OfflinePlayer getOfflinePlayer() {
-        return Bukkit.getOfflinePlayer(this.uuid);
-    }
-
-    public String getName() {
+    default String getName() {
         return this.getOfflinePlayer().getName();
     }
 
-    public Player getBukkitPlayer() {
-        return Bukkit.getPlayer(this.uuid);
+    default Player getBukkitPlayer() {
+        return Bukkit.getPlayer(this.getUuid());
     }
 
-    public boolean isOnline() {
+    default boolean isOnline() {
         return Objects.nonNull(this.getBukkitPlayer());
     }
 
-    public boolean isOffline() {
+    default boolean isOffline() {
         return !this.isOnline();
     }
 
-    public Location getBukkitLocation() {
+    default Location getBukkitLocation() {
         if (this.isOnline()) {
             return this.getBukkitPlayer().getLocation();
         }
         return null;
     }
 
-    public BeastLocation getLocation() {
+    default BeastLocation getLocation() {
         Location location = this.getBukkitLocation();
         if (Objects.nonNull(location)) {
-            return new BeastLocation(location);
+            return new BeastLocationImpl(location);
         }
         return null;
     }
 
-    public BeastFaction getFactionAtMyLocation() {
+    default BeastFaction getFactionAtMyLocation() {
         return this.getLocation().getFactionAt();
     }
 
-    public BeastFaction getMyFaction() {
+    default BeastFaction getMyFaction() {
         return this.manager().getFactionOfPlayer(this);
     }
 
-    public boolean isHisFaction(BeastFaction faction) {
+    default boolean isHisFaction(BeastFaction faction) {
         return this.getMyFaction().equals(faction);
     }
 
-    public boolean isAtHisFactionsLand() {
+    default boolean isAtHisFactionsLand() {
         return this.getFactionAtMyLocation().equals(this.getMyFaction());
     }
 
-    public boolean isEnemy(BeastPlayer player) {
+    default boolean isEnemy(BeastPlayer player) {
         return this.getMyFaction().isEnemy(player.getMyFaction());
     }
 
-    public boolean isAlly(BeastPlayer player) {
+    default boolean isAlly(BeastPlayer player) {
         return this.getMyFaction().isAlly(player.getMyFaction());
     }
 
-    public boolean isNeutral(BeastPlayer player) {
+    default boolean isNeutral(BeastPlayer player) {
         return this.getMyFaction().isNeutral(player.getMyFaction());
     }
 
-    public BeastRole getRole(){
+    default BeastRole getRole() {
         return this.getMyFaction().getRoleOfPlayer(this);
     }
 
 
-    public boolean isAdmin(){
+    default boolean isAdmin() {
         return this.manager().isAdmin(this);
     }
 
 
-    public boolean isColeader(){
+    default boolean isColeader() {
         return this.manager().isColeader(this);
     }
 
 
-    public boolean isMod(){
+    default boolean isMod() {
         return this.manager().isMod(this);
     }
 
 
-    public boolean isRecruit(){
+    default boolean isRecruit() {
         return this.manager().isRecruit(this);
     }
 
-    public boolean isMember(){
+    default boolean isMember() {
         return !isRecruit() && !isMod() && !isAdmin() && !isColeader() && hasFaction();
     }
 
-    public boolean hasFaction() {
+    default boolean hasFaction() {
         return this.manager().hasFaction(this);
     }
 
-    public void sms(String message){
-        if(this.isOnline()){
+    default void sms(String message) {
+        if (this.isOnline()) {
             this.getBukkitPlayer().sendMessage(ChatColor.translateAlternateColorCodes('&', message));
         }
     }
 
-    public void openInventory(Inventory inventory){
-        if(this.isOnline()){
+    default void openInventory(Inventory inventory) {
+        if (this.isOnline()) {
             this.getBukkitPlayer().openInventory(inventory);
         }
     }
 
-    public void performCommand(String command){
-        if(this.isOnline()){
+    default void performCommand(String command) {
+        if (this.isOnline()) {
             this.getBukkitPlayer().performCommand(command);
         }
     }
 
-    public void removePotionEffect(PotionEffectType effect){
-        if(this.isOnline()){
+    default void removePotionEffect(PotionEffectType effect) {
+        if (this.isOnline()) {
             this.getBukkitPlayer().removePotionEffect(effect);
         }
     }
 
-    public ItemStack getItemInHand(){
-        if(this.isOnline()){
+    default ItemStack getItemInHand() {
+        if (this.isOnline()) {
             return this.getBukkitPlayer().getItemInHand();
         }
         return null;
     }
 
-    public void setItemInHand(ItemStack itemInHand){
-        if(this.isOnline()){
+    default void setItemInHand(ItemStack itemInHand) {
+        if (this.isOnline()) {
             this.getBukkitPlayer().setItemInHand(itemInHand);
         }
     }
 
-    public PlayerInventory getInventory(){
-        if(this.isOnline()){
+    default PlayerInventory getInventory() {
+        if (this.isOnline()) {
             return this.getBukkitPlayer().getInventory();
         }
         return null;
     }
 
-    public void addPotionEffect(PotionEffect effect){
-        if(this.isOnline()){
+    default void addPotionEffect(PotionEffect effect) {
+        if (this.isOnline()) {
             this.getBukkitPlayer().addPotionEffect(effect);
         }
     }
 
-    public boolean hasPermission(String permission){
-        if(this.isOnline()){
+    default boolean hasPermission(String permission) {
+        if (this.isOnline()) {
             return this.getBukkitPlayer().hasPermission(permission);
         }
         return false;
     }
 
-    public boolean isInOthersLand(){
+    default boolean isInOthersLand() {
         return !this.isAtHisFactionsLand();
     }
 
-    public boolean isLocationInOthersLand(BeastLocation location){
+    default boolean isLocationInOthersLand(BeastLocation location) {
         return !this.getMyFaction().equals(location.getFactionAt());
     }
 
 
-    public boolean thereAreNearbyEnemies(double radius){
+    default boolean thereAreNearbyEnemies(double radius) {
         return this.getBukkitPlayer()
                 .getNearbyEntities(radius, radius, radius)
                 .stream()
                 .filter(e -> e instanceof Player)
-                .map(e -> this.playerManager().get(e.getUniqueId()))
+                .map(e -> this.playerManager().getPlayer(e.getUniqueId()))
                 .anyMatch(p -> p.isEnemy(this));
     }
-
 
 
 }

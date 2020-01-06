@@ -2,8 +2,10 @@ package info.beastsoftware.hookcore.api;
 
 import info.beastsoftware.hookcore.entity.BeastFaction;
 import info.beastsoftware.hookcore.entity.BeastPlayer;
+import info.beastsoftware.hookcore.service.FactionServiceImpl;
 import info.beastsoftware.hookcore.service.FactionsService;
 import info.beastsoftware.hookcore.service.PlayerService;
+import info.beastsoftware.hookcore.service.PlayerServiceImpl;
 import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
@@ -13,8 +15,8 @@ import java.util.UUID;
 
 public interface BeastFactionsHookAPI {
 
-    FactionsService factionsService = FactionsService.getInstance();
-    PlayerService playerService = PlayerService.getInstance();
+    FactionsService factionsService = FactionServiceImpl.getInstance();
+    PlayerService playerService = PlayerServiceImpl.getInstance();
 
     static BeastFaction getFactionFromId(String id) {
         return factionsService.getFromId(id);
