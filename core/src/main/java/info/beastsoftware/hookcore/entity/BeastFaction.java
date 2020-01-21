@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
+import org.bukkit.ChatColor;
 import org.bukkit.Chunk;
 
 import java.util.ArrayList;
@@ -59,15 +60,15 @@ public interface BeastFaction extends BeastEntity {
     }
 
     default boolean isWilderness(){
-        return this.getName().equalsIgnoreCase("wilderness");
+        return ChatColor.stripColor(this.getName()).equalsIgnoreCase("wilderness");
     }
 
     default boolean isWarzone(){
-        return this.getName().equalsIgnoreCase("warzone");
+        return  ChatColor.stripColor(this.getName()).equalsIgnoreCase("warzone");
     }
 
     default boolean isSafezone(){
-        return this.getName().equalsIgnoreCase("safezone");
+        return  ChatColor.stripColor(this.getName()).equalsIgnoreCase("safezone");
     }
 
     default boolean isSystemFaction(){

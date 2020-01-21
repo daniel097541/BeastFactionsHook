@@ -77,4 +77,12 @@ public interface CachedManager<K, T> {
         this.getCache().invalidateAll(keys);
     }
 
+    default Set<T> getBulk(Iterable<K> keys){
+        try {
+            return new HashSet<>(this.getCache().getAll(keys).values());
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 }
