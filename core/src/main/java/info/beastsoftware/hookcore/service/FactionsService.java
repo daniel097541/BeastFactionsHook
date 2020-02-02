@@ -36,8 +36,16 @@ public interface FactionsService {
             }
             //it is not :(  consider it a raw UUID plugin
             catch (ClassNotFoundException e) {
-                hookedFactions = HookedFactions.UUID;
-                BeastLogger.info("&7Hooked into &cMagicalFactions &7/ &cFactionsUUID &7!");
+                try{
+                    //if this is present, we must use saberfactions aka Savagefactions
+                    Class saber = Class.forName("com.massivecraft.factions.discord.Discord");
+                    hookedFactions = HookedFactions.SAVAGE;
+                    BeastLogger.info("&7Hooked into &cSavageFactions &7/ &cSaberFactions &7!");
+                }
+                catch (Throwable ignored) {
+                    hookedFactions = HookedFactions.UUID;
+                    BeastLogger.info("&7Hooked into &cMagicalFactions &7/ &cFactionsUUID &7!");
+                }
             }
         }
 
